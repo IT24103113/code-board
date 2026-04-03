@@ -21,7 +21,6 @@ root.innerHTML = `
 const header = document.getElementById("header");
 header.style.color = "green";
 header.style.fontFamily = "Consolas";
-header.style.direction = "rtl";
 
 const inputByName = document.getElementsByName("email");
 console.log(inputByName);
