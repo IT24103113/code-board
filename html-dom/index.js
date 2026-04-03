@@ -1,61 +1,40 @@
-console.dir(document);
+const root = document.getElementById("root");
 
-const timeout = window.setTimeout(() => {
-  console.log("Called after 3 seconds");
-}, 3000);
+let count = 0;
 
-window.clearTimeout(timeout);
-
-function handleButton(event) {
-  console.log("Handle button", event);
+/** Full document HTML; empty #dom-dump in the clone so the string does not nest itself. */
+function getDocumentSnapshotHtml() {
+  const clone = document.documentElement.cloneNode(true);
+  const dump = clone.querySelector("#dom-dump");
+  if (dump) {
+    dump.textContent = "";
+  }
+  const doctype = document.doctype
+    ? `<!DOCTYPE ${document.doctype.name}>\n`
+    : "";
+  return `${doctype}${clone.outerHTML}`;
 }
 
-const root = document.getElementById("root"); // O(1)
-root.innerHTML = `
-    <h1 id="header">Login Form</h1>
-    <input name="email" type="email" placeholder="Enter email" id="email" class="input-field" />
-    <input type="password" placeholder="Enter password" id="password" />
-    <button onclick="handleButton">Login</button>
+/**
+ * Rebuilds everything inside #root from a string. Old nodes are discarded; new ones are parsed and inserted.
+ * Then the <pre> shows the serialized document so you can see the whole page after that rerender.
+ */
+function render() {
+  root.innerHTML = `
+    <div class="flex min-h-screen w-full flex-col items-center justify-center px-6 py-6 font-sans">
+      <div class="flex w-full max-w-xl flex-col items-center gap-5">
+        <button type="button" id="btn" class="cursor-pointer rounded border border-gray-400 bg-gray-100 px-4 py-1.5 text-base hover:bg-gray-200">Click</button>
+        <p class="m-0 text-7xl font-semibold leading-none text-black" aria-live="polite">${count}</p>
+      </div>
+    </div>
   `;
 
-const header = document.getElementById("header");
-header.style.color = "green";
-header.style.fontFamily = "Consolas";
+  document.getElementById("btn").addEventListener("click", () => {
+    count += 1;
+    render();
+  });
 
-const inputByName = document.getElementsByName("email");
-console.log(inputByName);
+  document.getElementById("dom-dump").textContent = getDocumentSnapshotHtml();
+}
 
-const inputElements = document.getElementsByTagName("input");
-console.log(inputElements);
-
-const inputClassField = document.getElementsByClassName("input-field");
-console.log(inputClassField);
-
-const loginButton = document.getElementById("submit");
-loginButton.onclick = function handleLoginPress(event) {
-  console.log(event);
-  document.open();
-  document.writeln("Login Submitted");
-  document.write("Write method called"); // This is now deprecated
-  document.close();
-};
-
-header.onmousemove = function handleMouseMove() {
-  console.log("Mouse moved");
-};
-
-const emailField = document.getElementById("email");
-emailField.onkeydown = function handleKeyDown(event) {
-  console.log(event);
-  if (event.keyCode === 13) {
-    console.log("Handling Form Submit");
-  }
-};
-
-emailField.onchage = function handleOnChange(event) {
-  console.log(event);
-};
-
-emailField.onselect = function handleOnSelect(event) {
-  console.log(event.target);
-};
+render();

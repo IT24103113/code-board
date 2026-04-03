@@ -1,8 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import App from "./App";
 
-test('renders learn react link', () => {
+test("renders counter and increments on click", async () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: /click/i })).toBeInTheDocument();
+  expect(screen.getByText("0")).toBeInTheDocument();
+  await userEvent.click(screen.getByRole("button", { name: /click/i }));
+  expect(screen.getByText("1")).toBeInTheDocument();
 });
