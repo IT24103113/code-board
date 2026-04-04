@@ -22,6 +22,7 @@ function getDocumentSnapshotHtml() {
 function render() {
   root.innerHTML = `
     <div class="flex min-h-screen w-full flex-col items-center justify-center px-6 py-6 font-sans">
+      <h1>Counter</h1>
       <div class="flex w-full max-w-xl flex-col items-center gap-5">
         <button type="button" id="btn" class="cursor-pointer rounded border border-gray-400 bg-gray-100 px-4 py-1.5 text-base hover:bg-gray-200">Click</button>
         <p class="m-0 text-7xl font-semibold leading-none text-black" aria-live="polite">${count}</p>

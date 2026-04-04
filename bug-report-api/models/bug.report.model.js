@@ -5,6 +5,7 @@ const BugReportSchema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     isResolved: { type: Boolean },
+    user: { type: Schema.Types.ObjectId, ref: "User" },
   },
   {
     strict: false,
@@ -12,4 +13,4 @@ const BugReportSchema = new Schema(
   },
 );
 
-export const BugReport = mongoose.model("bug-reports", BugReportSchema);
+export const BugReport = mongoose.model("BugReport", BugReportSchema);

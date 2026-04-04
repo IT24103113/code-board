@@ -2,6 +2,7 @@ import "dotenv/config";
 import Express from "express";
 import { connectToDb } from "./lib/db.js";
 import { bugReportRouter } from "./routes/bug.report.route.js";
+import { userRouter } from "./routes/user.route.js";
 
 const main = async () => {
   const app = Express();
@@ -15,6 +16,7 @@ const main = async () => {
 
   app.use(Express.json());
   app.use("/bug", bugReportRouter);
+  app.use("/user", userRouter);
 
   app.listen(port, () => {
     console.log(`Server is started at http://localhost:${port}`);
